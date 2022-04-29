@@ -1,5 +1,5 @@
 import unittest
-from application import application as app
+from application import application
 from src.modelos.modelos import *
 
 
@@ -7,11 +7,11 @@ from src.modelos.modelos import *
 
 class TestVistaBlackList(unittest.TestCase):
     def setUp(self):        
-        app.config['TESTING'] = True
-        app.config['DEBUG'] = True
-        app.config['APP_ENV'] = 'APP_ENV_TESTING'
-        app.config['WTF_CSRF_ENABLED'] = False
-        self.client = app.test_client()
+        application.config['TESTING'] = True
+        application.config['DEBUG'] = True
+        application.config['APP_ENV'] = 'APP_ENV_TESTING'
+        application.config['WTF_CSRF_ENABLED'] = False
+        self.client = application.test_client()
         db.create_all()
 
     def test_vista_black_list_get_positive(self):
