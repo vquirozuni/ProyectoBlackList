@@ -1,4 +1,3 @@
-from email import header
 import unittest
 import json
 from application import application
@@ -41,11 +40,11 @@ class TestVistaBlackList(unittest.TestCase):
             #data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
 
-    def test_vista_blacklist_post_positive(self):
+    def test_vista_blacklist_post_agregar_mail_repetido(self):
         with self.client:
             token = login_user(self, 'vquiroz', '1234')
             new_bloqueado = {
-                "email": "prueba@uniandes.edu.co",
+                "email": "correo@uniandes.edu.co",
                 "app_uuid": "sdd1234dsfsdf9abcdef",
                "blocked_reason": "Bloqueo de test"
             }
@@ -56,15 +55,17 @@ class TestVistaBlackList(unittest.TestCase):
                         token.data.decode()
                     )['token']
                 )
-            )            
+            )
+            data = json.loads(response.data.decode())              
             code = response.status_code
-            self.assertEqual(code, 200)
+            self.assertTrue(data['mensaje'] == 'Email ya existe en la lista negra')
+            self.assertEqual(code, 400)
 
     def test_vista_black_list_get_one_positive(self):
         with self.client:
             token = login_user(self, 'vquiroz', '1234')
             response = self.client.get(
-                '/blacklists/correoprueba@uniandes.edu.co', 
+                '/blacklists/correo@uniandes.edu.co', 
                 headers=dict(
                     Authorization = 'Bearer ' + json.loads(
                         token.data.decode()
@@ -72,5 +73,5 @@ class TestVistaBlackList(unittest.TestCase):
                 )
             )
             data = json.loads(response.data.decode())            
-            self.assertTrue(data['email'] == 'correoprueba@uniandes.edu.co')
+            self.assertTrue(data['email'] == 'correo@uniandes.edu.co')
             self.assertEqual(response.status_code, 200)
