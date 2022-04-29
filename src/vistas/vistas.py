@@ -22,6 +22,9 @@ class VistaBlackList(Resource):
         _app_uuid = request.json["app_uuid"]
         _blocked_reason = request.json["blocked_reason"]
 
+        if _email.strip() == "":
+            return {"mensaje":"Ingrese valor en email"}, 400
+
         if _app_uuid.strip() == "":
             return {"mensaje":"Ingrese valor en app_uuid"}, 400
 

@@ -3,7 +3,7 @@ import os
 from flask import Flask
 
 
-db_host = os.getenv('DB_HOST', 'rds-blacklist.cco378ibyevv.us-east-1.rds.amazonaws.com')
+db_host = os.getenv('DB_HOST', 'localhost')
 db_port = os.getenv('DB_PORT', 5432)
 db_name = os.getenv('DB_NAME', 'blacklist')
 db_user = os.getenv('DB_USER', 'postgres')
