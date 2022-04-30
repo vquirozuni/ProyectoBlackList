@@ -40,6 +40,22 @@ class TestVistaBlackList(unittest.TestCase):
             #data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
 
+    
+    def test_vista_black_list_get_all_token_mal_formado(self):
+        with self.client:
+            token = login_user(self, 'vquiroz', '1234')
+            response = self.client.get(
+                '/blacklists', 
+                headers=dict(
+                    Authorization = 'Bearer' + json.loads(
+                        token.data.decode()
+                    )['token']
+                )
+            )
+            data = json.loads(response.data.decode())
+            self.assertTrue(data['msg'] == "Missing 'Bearer' type in 'Authorization' header. Expected 'Authorization: Bearer <JWT>'")
+            self.assertEqual(response.status_code, 401)
+
     def test_vista_blacklist_post_agregar_mail_repetido(self):
         with self.client:
             token = login_user(self, 'vquiroz', '1234')
