@@ -44,7 +44,6 @@ class VistaBlackList(Resource):
 class VistaBloqueado(Resource):
     @jwt_required()
     def get(self, email_bloqueado):
-        print(email_bloqueado)
         bloqueado = Bloqueado.query.filter_by(email=email_bloqueado).first()
         if not bloqueado:
             return {"mensaje":"Email no existe en la lista negra"}, 400
