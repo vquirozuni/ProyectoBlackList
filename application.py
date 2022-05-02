@@ -1,4 +1,3 @@
-import imp
 from src import create_app
 from src.modelos.modelos import db
 from flask_restful import Api
