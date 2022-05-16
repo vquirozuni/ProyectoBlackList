@@ -1,7 +1,9 @@
-FROM public.ecr.aws/docker/library/alpine:3.14
+FROM  public.ecr.aws/docker/library/alpine:3.14
 
+RUN apk update
 RUN apk add py3-pip \
     && pip install --upgrade pip
+RUN apk add make automake gcc g++ subversion python3-dev
 
 WORKDIR /app
 COPY . /app

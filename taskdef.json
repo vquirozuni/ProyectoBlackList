@@ -12,7 +12,7 @@
 
         "image": "<IMAGE1_NAME>",
         "essential": true,
-        "name": "Container-app-python-fargate"
+        "name": "Container-python-fargate-blacklist"
       }
     ],
 
@@ -22,5 +22,5 @@
     "networkMode": "awsvpc",
     "cpu": "512",
     "memory": "1024",
-    "family": "Task-app-python-fargate"
+    "family": "Task-python-fargate-blacklist"
   }

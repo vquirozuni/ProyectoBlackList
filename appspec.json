@@ -7,7 +7,7 @@
           "Properties": {
             "TaskDefinition": "<TASK_DEFINITION>",
             "LoadBalancerInfo": {
-              "ContainerName": "Container-app-python-fargate",
+              "ContainerName": "Container-python-fargate-blacklist",
               "ContainerPort": 5000
             }
           }
