@@ -4,9 +4,34 @@ phases:
   pre_build:
     commands:
       - pip install -r requirements.txt
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 443283769835.dkr.ecr.us-east-1.amazonaws.com      
   build:
-    commands:
+    commands:      
       - python -m unittest
+      - echo Build started on `date`
+      - echo Building the Docker image...          
+      - docker build -t python_fargate .
+      - docker tag python_fargate:latest 443283769835.dkr.ecr.us-east-1.amazonaws.com/python_fargate:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push 443283769835.dkr.ecr.us-east-1.amazonaws.com/python_fargate:latest
+      - echo Writing Image Definitions file...
+      - printf '[{"name":"Container-python-fargate-blacklist","imageUri":"443283769835.dkr.ecr.us-east-1.amazonaws.com/python_fargate:latest"}]' > imagedefinitions.json
+      - printf '{"ImageURI":"443283769835.dkr.ecr.us-east-1.amazonaws.com/python_fargate:latest"}' > imageDetail.json
+      - cat imagedefinitions.json 
 artifacts:
   files:
     - '**/*'
+    - imagedefinitions.json
+    - imageDetail.json
+  secondary-artifacts:
+    DefinitionArtifact:
+      files:
+        - appspec.yaml
+        - taskdef.json
+    ImageArtifact:
+      files:
+        - imageDetail.json
